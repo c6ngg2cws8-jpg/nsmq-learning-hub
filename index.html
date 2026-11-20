@@ -3,75 +3,79 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NSMQ Learning Hub</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-* { box-sizing: border-box; }
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-  color: #172554;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f2f6fa;
+  color:#10233f;
 }
 header {
-  background: #071b36;
-  color: white;
-  padding: 22px 18px;
-  text-align: center;
+  background:#071b36;
+  color:white;
+  padding:24px;
+  text-align:center;
 }
-header h1 { margin: 0; color: #36d399; }
+header h1 {color:#36d399;}
 nav {
-  background: #102c50;
-  padding: 14px;
-  text-align: center;
+  background:#102c50;
+  padding:15px;
+  text-align:center;
 }
 nav a {
-  color: white;
-  text-decoration: none;
-  margin: 8px;
-  font-size: 14px;
-}
-.hero {
-  background: linear-gradient(135deg,#092447,#087c65);
-  color: white;
-  padding: 65px 20px;
-  text-align: center;
-}
-.hero h2 { font-size: 32px; }
-.hero p { line-height: 1.7; }
-.btn {
-  display: inline-block;
-  background: #36d399;
-  color: #071b36;
-  padding: 13px 23px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  margin-top: 12px;
+  color:white;
+  margin:8px;
+  text-decoration:none;
 }
 .container {
-  padding: 30px 18px;
-  max-width: 1000px;
-  margin: auto;
+  max-width:850px;
+  margin:auto;
+  padding:20px;
 }
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
-  gap: 16px;
+.hero {
+  background:linear-gradient(135deg,#092447,#087c65);
+  color:white;
+  padding:45px 20px;
+  text-align:center;
+  border-radius:12px;
 }
 .card {
-  background: white;
-  padding: 23px;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px #00000010;
+  background:white;
+  padding:22px;
+  margin:18px 0;
+  border-radius:12px;
+  box-shadow:0 3px 12px #0001;
 }
-.card h3 { color: #087c65; }
+input {
+  display:block;
+  width:100%;
+  padding:13px;
+  margin:12px 0;
+  border:1px solid #ccc;
+  border-radius:7px;
+  box-sizing:border-box;
+}
+button {
+  background:#087c65;
+  color:white;
+  border:0;
+  padding:13px 20px;
+  border-radius:7px;
+  margin:5px;
+  cursor:pointer;
+}
+.secondary {background:#102c50;}
+#message {color:#087c65;font-weight:bold;}
 footer {
-  background: #071b36;
-  color: white;
-  padding: 25px;
-  text-align: center;
+  background:#071b36;
+  color:white;
+  text-align:center;
+  padding:25px;
 }
+.hidden {display:none;}
 </style>
 </head>
 <body>
@@ -84,58 +88,161 @@ footer {
 <nav>
 <a href="#home">Home</a>
 <a href="#subjects">Subjects</a>
-<a href="#quizzes">Quizzes</a>
-<a href="#about">About</a>
+<a href="#account">Student Account</a>
 </nav>
 
-<section class="hero" id="home">
+<section class="container" id="home">
+<div class="hero">
 <h2>Welcome to NSMQ Learning Hub</h2>
-<p>Your learning destination for Science and Mathematics.
-Prepare, practise and develop the skills to excel in NSMQ.</p>
-<a href="#subjects" class="btn">Start Learning</a>
-</section>
+<p>Your destination for Science and Mathematics learning.</p>
+<a href="#subjects" style="color:white">Start Learning ↓</a>
+</div>
 
-<section class="container" id="subjects">
-<h2>Explore Learning Subjects</h2>
-<div class="cards">
-<div class="card">
-<h3>Mathematics</h3>
-<p>Explore algebra, geometry, trigonometry and more.</p>
+<div id="subjects" class="card">
+<h2>Learning Centre</h2>
+<p>Mathematics – Algebra, Geometry and Trigonometry.</p>
+<p>Physics – Mechanics, Electricity and Waves.</p>
+<p>Chemistry – Reactions and Calculations.</p>
+<p>Biology – Genetics, Ecology and Human Biology.</p>
 </div>
-<div class="card">
-<h3>Physics</h3>
-<p>Learn mechanics, electricity, waves and energy.</p>
-</div>
-<div class="card">
-<h3>Chemistry</h3>
-<p>Discover chemical reactions and calculations.</p>
-</div>
-<div class="card">
-<h3>Biology</h3>
-<p>Explore cells, genetics, ecology and human biology.</p>
-</div>
-</div>
-</section>
 
-<section class="container" id="quizzes">
-<h2>Practice and Improve</h2>
 <div class="card">
-<h3>NSMQ Practice Quizzes</h3>
-<p>Challenge yourself with science and mathematics questions.</p>
-<p>Interactive quizzes are coming soon!</p>
+<h2>Practice Centre</h2>
+<p>Interactive NSMQ practice quizzes are coming soon!</p>
 </div>
-</section>
 
-<section class="container" id="about">
-<h2>About Us</h2>
-<p>NSMQ Learning Hub is an educational platform designed to help Senior High School students across Ghana improve their Science and Mathematics knowledge and prepare for the National Science and Maths Quiz.</p>
+<div class="card" id="account">
+<h2>Student Account</h2>
+
+<div id="authForms">
+<h3>Create an account</h3>
+<input id="displayName" placeholder="Display name">
+<input id="email" type="email" placeholder="Email address">
+<input id="password" type="password"
+placeholder="Password (minimum 8 characters)">
+
+<label>
+<input type="checkbox" id="consent"
+style="display:inline;width:auto">
+I confirm that I am 18 or older, or have appropriate parent, guardian or school permission.
+</label>
+
+<button onclick="register()">Register</button>
+
+<hr>
+
+<h3>Already registered?</h3>
+<input id="loginEmail" type="email"
+placeholder="Email address">
+<input id="loginPassword" type="password"
+placeholder="Password">
+
+<button onclick="login()">Login</button>
+</div>
+
+<div id="dashboard" class="hidden">
+<h3>Welcome, <span id="studentName"></span>!</h3>
+<p>Your student account is active.</p>
+<button onclick="logout()">Logout</button>
+</div>
+
+<p id="message"></p>
+</div>
 </section>
 
 <footer>
 <p>NSMQ Learning Hub</p>
 <p>Learn. Practise. Compete. Excel.</p>
-<p>© 2026 NSMQ Learning Hub</p>
+<p>© 2026</p>
 </footer>
+
+<script>
+// ADD YOUR SUPABASE DETAILS BELOW
+const SUPABASE_URL = "frpzecqgvmvyamuxrghf";
+const SUPABASE_KEY = "sb_publishable_Z95dLDTuwXlF4OE4t1PB4Q_nkbfE1zL;
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const message = document.getElementById("message");
+
+async function register() {
+  const name = document.getElementById("displayName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const consent = document.getElementById("consent").checked;
+
+  if (!name || !email || password.length < 8) {
+    message.textContent = "Enter a display name, valid email and password of at least 8 characters.";
+    return;
+  }
+
+  if (!consent) {
+    message.textContent = "Appropriate age or permission confirmation is required.";
+    return;
+  }
+
+  message.textContent = "Creating account...";
+
+  const {error} = await db.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: window.location.origin +
+        "/nsmq-learning-hub/",
+      data: {
+        display_name: name
+      }
+    }
+  });
+
+  message.textContent = error
+    ? error.message
+    : "Registration submitted! Check your email for confirmation.";
+}
+
+async function login() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  message.textContent = "Logging in...";
+
+  const {error} = await db.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  message.textContent = error ? error.message : "Login successful!";
+  await checkUser();
+}
+
+async function logout() {
+  const {error} = await db.auth.signOut();
+  message.textContent = error ? error.message : "Logged out.";
+  await checkUser();
+}
+
+async function checkUser() {
+  const {data} = await db.auth.getUser();
+  const user = data.user;
+
+  document.getElementById("authForms").classList.toggle("hidden", !!user);
+  document.getElementById("dashboard").classList.toggle("hidden", !user);
+
+  if (user) {
+    document.getElementById("studentName").textContent =
+      user.user_metadata.display_name || "Student";
+  }
+}
+
+db.auth.onAuthStateChange(() => {
+  checkUser();
+});
+
+checkUser();
+</script>
 
 </body>
 </html>
